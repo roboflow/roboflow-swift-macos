@@ -5,11 +5,12 @@
 //  Created by Nicholas Arner on 4/12/22.
 //
 
-import UIKit
+import AppKit
 import CoreML
 import Vision
 
 ///Interface for interacting with the Roboflow API
+@available(macOS 10.15, *)
 public class RoboflowMobile: NSObject {
     
     var apiKey: String!
@@ -22,11 +23,11 @@ public class RoboflowMobile: NSObject {
         self.apiKey = apiKey
         
         //Generate a unique device ID
-        guard let deviceID = UIDevice.current.identifierForVendor?.uuidString else {
-            return
-        }
+//        guard let deviceID = UIDevice.current.identifierForVendor?.uuidString else {
+//            return
+//        }
         
-        self.deviceID = deviceID
+        self.deviceID = "MacOS Device"//deviceID
     }
     
     //Start the process of fetching the CoreMLModel
@@ -74,6 +75,7 @@ public class RoboflowMobile: NSObject {
         self.load(model: model, modelVersion: modelVersion, completion: completion)
     }
 
+    @available(macOS 10.15, *)
     public func load(model: String, modelVersion: Int) async -> (RFObjectDetectionModel?, Error?, String, String) {
         return await withCheckedContinuation { continuation in
             load(model: model, modelVersion: modelVersion) { result1, result2, result3, result4 in
@@ -227,7 +229,7 @@ public class RoboflowMobile: NSObject {
     }
    
     //Upload an image to a provided project
-    public func uploadImage(image: UIImage, project: String, completion: @escaping (UploadResult)->()) {
+    public func uploadImage(image: NSImage, project: String, completion: @escaping (UploadResult)->()) {
         let encodedImage = convertImageToBase64String(img: image)
         let uuid = UUID().uuidString
         
@@ -266,8 +268,8 @@ public class RoboflowMobile: NSObject {
         }.resume()
     }
     
-    func convertImageToBase64String (img: UIImage) -> String {
-        return img.jpegData(compressionQuality: 1)?.base64EncodedString() ?? ""
+    func convertImageToBase64String (img: NSImage) -> String {
+        return img.jpegData(compressionQuality: 1).base64EncodedString() ?? ""
     }
 }
 

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import UIKit
+import AppKit
 
 public struct RFObjectDetectionPrediction {
     let x: Float
@@ -15,12 +15,12 @@ public struct RFObjectDetectionPrediction {
     let height: Float
     let className: String
     let confidence: Float
-    let color: UIColor
+    let color: NSColor
     let box: CGRect
     
     public func getValues() -> [String: Any] {
         let ciColor = CIColor(color: color)
-        let rgbColor = [Int(ciColor.red * 255), Int(ciColor.green * 255), Int(ciColor.blue * 255)]
+        let rgbColor = [Int(ciColor!.red * 255), Int(ciColor!.green * 255), Int(ciColor!.blue * 255)]
         let result = [
             "x": x,
             "y": y,
