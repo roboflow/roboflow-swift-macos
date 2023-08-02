@@ -27,7 +27,7 @@ public class RoboflowMobile: NSObject {
 //            return
 //        }
         
-        self.deviceID = "MacOS Device"//deviceID
+        self.deviceID = "MacOS-Device"//deviceID
     }
     
     //Start the process of fetching the CoreMLModel
@@ -85,7 +85,8 @@ public class RoboflowMobile: NSObject {
     }
     
     func getConfigData(modelName: String, modelVersion: Int, apiKey: String, deviceID: String, completion: @escaping (([String: Any]?, Error?) -> Void)) {
-        var request = URLRequest(url: URL(string: "https://api.roboflow.com/coreml/\(modelName)/\(String(modelVersion))?api_key=\(apiKey)&device=\(deviceID)&bundle=\(Bundle.main.bundleIdentifier ?? "nobundle")")!,timeoutInterval: Double.infinity)
+        print("https://api.roboflow.com/coreml/\(modelName)/\(String(modelVersion))?api_key=\(apiKey)&device=\(deviceID)")
+        var request = URLRequest(url: URL(string: "https://api.roboflow.com/coreml/\(modelName)/\(String(modelVersion))?api_key=\(apiKey)&device=\(deviceID)")!,timeoutInterval: Double.infinity)
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "GET"
         
@@ -269,7 +270,7 @@ public class RoboflowMobile: NSObject {
     }
     
     func convertImageToBase64String (img: NSImage) -> String {
-        return img.jpegData(compressionQuality: 1).base64EncodedString() ?? ""
+        return img.jpegData(compressionQuality: 1).base64EncodedString()
     }
 }
 
